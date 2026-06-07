@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Launcher | Learner Academies</title>
+        <link rel="shortcut icon" href="favicon.png" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                min-height: 100vh;
+                background: linear-gradient(to bottom right, #111827, #0f172a, #111827);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 900px;
+                background: #1f2937;
+                border: 1px solid #374151;
+                border-radius: 1rem;
+                padding: 2rem;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            }
+
+            h1 {
+                text-align: center;
+                color: white;
+                margin-bottom: 2rem;
+                font-size: 2rem;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+
+            .launch-btn {
+                padding: 1.25rem;
+                border: none;
+                border-radius: 0.75rem;
+                background: linear-gradient(to right, #2563eb, #22c55e);
+                color: white;
+                font-size: 1rem;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            }
+
+            .launch-btn:hover {
+                transform: translateY(-4px);
+                background: linear-gradient(to right, #3b82f6, #4ade80);
+            }
+
+            .launch-btn:active {
+                transform: translateY(0);
+            }
+        </style>
+    </head>
+    <body>
+        <a href="index.html" class="favicon-link">
+            <img src="favicon.png" alt="Launcher" />
+        </a>
+        <div class="container">
+            <h1>Quiz Launcher</h1>
+
+            <div class="grid">
+                <button class="launch-btn" onclick="launch('trigonometry 1.html')">Trigonometry Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('trigonometry 2.html')">Trigonometry Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('trigonometry 3.html')">Trigonometry Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('algebra 1.html')">Algebra Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('algebra 2.html')">Algebra Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('algebra 3.html')">Algebra Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('statistics 1.html')">Statistics Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('statistics 2.html')">Statistics Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('statistics 3.html')">Statistics Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('physics 1.html')">Physics Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('physics 2.html')">Physics Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('physics 3.html')">Physics Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('chemistry 1.html')">Chemistry Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('chemistry 2.html')">Chemistry Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('chemistry 3.html')">Chemistry Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('geometry 1.html')">Geometry Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('geometry 2.html')">Geometry Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('geometry 3.html')">Geometry Quiz 3</button>
+
+                <button class="launch-btn" onclick="launch('calculus 1.html')">Calculus Quiz 1</button>
+
+                <button class="launch-btn" onclick="launch('calculus 2.html')">Calculus Quiz 2</button>
+
+                <button class="launch-btn" onclick="launch('calculus 3.html')">Calculus Quiz 3</button>
+            </div>
+        </div>
+
+        <script>
+            function launch(page) {
+                window.location.href = page;
+            }
+        </script>
+    </body>
+</html>

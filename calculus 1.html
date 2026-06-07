@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Calculus Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+<div class="container">
+<h1>Calculus Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+const questions = [
+  
+  {q:"What is the derivative of x²?", a:["x","2x","x²"], c:1},
+
+{q:"What is the derivative of x³?", a:["3x²","x²","3x"], c:0},
+
+{q:"What is the derivative of a constant?", a:["1","0","The constant"], c:1},
+
+{q:"What is ∫x dx?", a:["x²","½x²+C","2x+C"], c:1},
+
+{q:"What is the derivative of 5x?", a:["5","x","0"], c:0},
+
+{q:"What is the derivative of sin(x)?", a:["cos(x)","-cos(x)","tan(x)"], c:0},
+
+{q:"What is the derivative of cos(x)?", a:["sin(x)","-sin(x)","tan(x)"], c:1},
+
+{q:"What is ∫1 dx?", a:["1+C","x+C","0"], c:1},
+
+{q:"What is the derivative of x⁵?", a:["5x⁴","x⁴","25x⁴"], c:0},
+
+{q:"What is ∫x² dx?", a:["x³+C","⅓x³+C","3x²+C"], c:1},
+
+{q:"What does a derivative represent?", a:["Area","Slope","Volume"], c:1},
+
+{q:"What does a definite integral represent?", a:["Area under a curve","Slope","Rate of change"], c:0},
+
+{q:"What is d/dx(7)?", a:["7","1","0"], c:2},
+
+{q:"What is d/dx(x)?", a:["0","1","x"], c:1},
+
+{q:"What is ∫0 dx?", a:["0","x","C"], c:0},
+
+{q:"What is the derivative of √x?", a:["1/(2√x)","2√x","√x"], c:0},
+
+{q:"What is d/dx(eˣ)?", a:["e","xeˣ","eˣ"], c:2}
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

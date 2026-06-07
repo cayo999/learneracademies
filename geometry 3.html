@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Geometry Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<h1>Geometry Quiz</h1>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+{q:"Volume of a cylinder?", a:["πr²h","2πrh","πrh","r²h"], c:0},
+
+{q:"A line segment has?", a:["No endpoints","1 endpoint","2 endpoints","Infinite endpoints"], c:2},
+
+{q:"A ray has?", a:["No endpoints","1 endpoint","2 endpoints","Infinite endpoints"], c:1},
+
+{q:"A line has?", a:["No endpoints","1 endpoint","2 endpoints","3 endpoints"], c:0},
+
+{q:"Midpoint divides a segment into?", a:["2 equal parts","3 equal parts","4 equal parts","Unequal parts"], c:0},
+
+{q:"Interior angles of a quadrilateral sum to?", a:["180°","270°","360°","540°"], c:2},
+
+{q:"Interior angles of a pentagon sum to?", a:["360°","540°","720°","900°"], c:1},
+
+{q:"Slope of a horizontal line is?", a:["0","Undefined","1","-1"], c:0},
+
+{q:"Slope of a vertical line is?", a:["0","Undefined","1","-1"], c:1},
+
+{q:"An acute angle is?", a:["Less than 90°","Exactly 90°","Greater than 90°","180°"], c:0},
+
+{q:"An obtuse angle is?", a:["Less than 90°","Exactly 90°","Between 90° and 180°","360°"], c:2},
+
+{q:"A straight angle measures?", a:["90°","180°","270°","360°"], c:1},
+
+{q:"A full rotation measures?", a:["180°","270°","360°","720°"], c:2},
+
+{q:"A decagon has how many sides?", a:["8","9","10","12"], c:2},
+
+{q:"A heptagon has how many sides?", a:["6","7","8","9"], c:1},
+
+{q:"What does a bisector do?", a:["Divides into equal parts","Measures distance","Adds angles","Finds area"], c:0},
+
+{q:"A secant intersects a circle at?", a:["1 point","2 points","Center","No points"], c:1}
+];
+
+let i=0, score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+ if(i>=questions.length){
+
+ let review = `
+ <h2>Score: ${score}/${questions.length}</h2>
+ <h3>Review</h3>
+ `;
+
+ questions.forEach((q, index) => {
+
+   const userChoice = userAnswers[index];
+   const correctChoice = q.c;
+
+   review += `
+   <div style="margin-bottom:20px; text-align:left;">
+     <strong>${index + 1}. ${q.q}</strong><br>
+     Your Answer:
+     <span style="color:${userChoice===correctChoice ? 'lime' : 'red'}">
+       ${q.a[userChoice]}
+     </span><br>
+     Correct Answer:
+     <span style="color:lime">
+       ${q.a[correctChoice]}
+     </span>
+   </div>
+   `;
+ });
+
+ document.getElementById("quiz").innerHTML = review;
+ return;
+}
+
+ let q = questions[i];
+ document.getElementById("quiz").innerHTML =
+ `<h2>${q.q}</h2>` +
+ q.a.map((ans,idx)=>
+ `<button onclick="check(${idx})">${ans}</button>`).join("");
+}
+
+function check(idx){
+
+ userAnswers.push(idx);
+
+ if(idx===questions[i].c) score++;
+
+ i++;
+ load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+    function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

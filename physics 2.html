@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Physics Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+<h1>Physics Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+
+  {q:"What is mass?", a:["Amount of matter","Force of gravity","Resistance to motion"], c:0},
+  {q:"Weight is?", a:["Mass × gravity","Mass ÷ gravity","Force ÷ acceleration"], c:0},
+  {q:"Unit of pressure?", a:["Pascal","Joule","Tesla"], c:0},
+  {q:"Pressure formula?", a:["Force/Area","Mass × acceleration","Work/time"], c:0},
+
+  {q:"What is density?", a:["Mass/Volume","Force/Area","Volume/Mass"], c:0},
+  {q:"Unit of density?", a:["kg/m³","N/m²","J/kg"], c:0},
+  {q:"Law of conservation of energy states?", a:["Energy cannot be created or destroyed","Energy always increases","Energy equals force"], c:0},
+  {q:"What is friction?", a:["Force opposing motion","Force causing motion","Stored energy"], c:0},
+  {q:"What is net force?", a:["Sum of all forces","Largest force only","Mass × gravity"], c:0},
+  {q:"Balanced forces cause?", a:["No acceleration","Constant acceleration","Infinite velocity"], c:0},
+  {q:"Projectile motion has constant?", a:["Horizontal velocity","Vertical velocity","Acceleration upward"], c:0},
+  {q:"What causes circular motion?", a:["Centripetal force","Gravity only","Friction only"], c:0},
+  {q:"Unit of frequency?", a:["Hertz","Pascal","Tesla"], c:0},
+  {q:"Frequency is?", a:["Cycles per second","Distance per second","Energy per wave"], c:0},
+
+  {q:"What is wavelength?", a:["Distance between wave peaks","Wave speed","Wave height"], c:0},
+  {q:"Wave speed formula?", a:["v = fλ","v = d/t²","v = ma"], c:0},
+  {q:"Amplitude measures?", a:["Wave height","Wave speed","Wave length"], c:0}
+  
+
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

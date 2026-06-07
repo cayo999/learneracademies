@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Statistics Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+<h1>Statistics Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+{q:"Left skew means?", a:["Tail extends left","Tail extends right","No tail"], c:0},
+  {q:"A normal distribution is?", a:["Bell-shaped","Flat","Random dots"], c:0},
+
+  {q:"What percentage is within 1 SD in normal distribution?", a:["68%","95%","99.7%"], c:0},
+  {q:"What percentage is within 2 SD?", a:["68%","95%","99.7%"], c:1},
+  {q:"What percentage is within 3 SD?", a:["68%","95%","99.7%"], c:2},
+  {q:"What is a z-score?", a:["Distance from mean in SDs","Average","Probability"], c:0},
+  {q:"A z-score of 0 means?", a:["At mean","Below mean","Above mean"], c:0},
+
+  {q:"What is independent events?", a:["Events affect each other","Events do not affect each other","Impossible events"], c:1},
+  {q:"What is mutually exclusive?", a:["Can happen together","Cannot happen together","Always likely"], c:1},
+  {q:"Addition rule applies to?", a:["Either event","Both events","Neither"], c:0},
+  {q:"Multiplication rule applies to?", a:["And probability","Or probability","Median"], c:0},
+  {q:"What is expected value?", a:["Long-term average outcome","Middle value","Largest value"], c:0},
+
+  {q:"What is a parameter?", a:["Population measure","Sample measure","Range"], c:0},
+  {q:"What is a statistic?", a:["Sample measure","Population measure","Outlier"], c:0},
+  {q:"What is inference?", a:["Generalizing from sample","Exact certainty","Sorting data"], c:0},
+  {q:"What is margin of error?", a:["Estimate uncertainty","Average spread","Exact answer"], c:0},
+  {q:"What is confidence level?", a:["Chance estimate contains true value","Probability of event","Mean accuracy"], c:0}
+
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

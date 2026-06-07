@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Chemistry Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+<h1>Chemistry Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+
+  {q:"What is the formula for table salt?", a:["NaCl","KCl","NaOH"], c:0},
+  {q:"What is the charge of a proton?", a:["+1","-1","0"], c:0},
+  {q:"What is the charge of an electron?", a:["+1","-1","0"], c:1},
+
+  {q:"What does pH measure?", a:["Temperature","Acidity","Pressure"], c:1},
+  {q:"A pH below 7 is?", a:["Basic","Neutral","Acidic"], c:2},
+  {q:"A pH above 7 is?", a:["Acidic","Basic","Neutral"], c:1},
+  {q:"What is the chemical formula for carbon dioxide?", a:["CO","CO₂","C₂O"], c:1},
+  {q:"What type of bond shares electrons?", a:["Ionic","Covalent","Metallic"], c:1},
+
+  {q:"What type of bond transfers electrons?", a:["Ionic","Covalent","Hydrogen"], c:0},
+  {q:"What is the periodic table organized by?", a:["Atomic number","Atomic mass","Alphabetical order"], c:0},
+  {q:"Who created the periodic table?", a:["Bohr","Mendeleev","Dalton"], c:1},
+  {q:"What is the symbol for oxygen?", a:["Ox","O","Og"], c:1},
+  {q:"How many electrons can the first shell hold?", a:["2","8","18"], c:0},
+
+  {q:"What is Avogadro’s number?", a:["6.02×10²³","3.14","9.8"], c:0},
+  {q:"What is a mole?", a:["Amount of substance","Type of atom","Energy unit"], c:0},
+  {q:"What happens in oxidation?", a:["Gain electrons","Lose electrons","No change"], c:1}
+  
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

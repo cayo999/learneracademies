@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Calculus Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+<div class="container">
+<h1>Calculus Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+const questions = [
+  
+  {q:"What is d/dx(x⁴)?", a:["4x³","x³","16x³"], c:0},
+
+{q:"What is d/dx(1/x)?", a:["1/x²","-1/x²","x²"], c:1},
+
+{q:"What is d/dx(tan x)?", a:["sec²x","cos²x","csc²x"], c:0},
+
+{q:"What is d/dx(ln x)?", a:["x","1/x","ln x"], c:1},
+
+{q:"What is ∫2x dx?", a:["x²+C","2x²+C","x+C"], c:0},
+
+{q:"What is d/dx(x⁻²)?", a:["-2x⁻³","2x⁻¹","-x⁻²"], c:0},
+
+{q:"What is the product rule?", a:["u'+v'","uv'+u'v","u/v"], c:1},
+
+{q:"What is d/dx(sin x + cos x)?", a:["cos x - sin x","sin x + cos x","cos x + sin x"], c:0},
+
+{q:"What is ∫3 dx?", a:["3x+C","x+3","3+C"], c:0},
+
+{q:"What is d/dx(2eˣ)?", a:["2eˣ","eˣ","2"], c:0},
+
+{q:"What is d/dx(x²+4x)?", a:["2x+4","x+4","2x"], c:0},
+
+{q:"What is d/dx(sec x)?", a:["sec x tan x","tan x","sec²x"], c:0},
+
+{q:"What is the chain rule used for?", a:["Products","Compositions","Quotients"], c:1},
+
+{q:"What is ∫x³ dx?", a:["x⁴+C","¼x⁴+C","4x³+C"], c:1},
+
+{q:"What is d/dx(5ln x)?", a:["5/x","ln5","5x"], c:0},
+
+{q:"What is d/dx(x²sin x)?", a:["2xsin x+x²cos x","2xcos x","x²cos x"], c:0},
+
+{q:"What is a critical point?", a:["Where f'=0 or undefined","Where f=0","Where x=0"], c:0}
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

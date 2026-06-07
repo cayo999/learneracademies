@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Geometry Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<h1>Geometry Quiz</h1>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+{q:"What is the area formula for a circle?", a:["πr²","2πr","πd","πr"], c:0},
+
+{q:"What is the circumference formula of a circle?", a:["πr²","2πr","πd²","r²"], c:1},
+
+{q:"What is the diameter if the radius is 6?", a:["6","12","18","36"], c:1},
+
+{q:"Parallel lines do what?", a:["Intersect once","Never intersect","Form right angles","Curve"], c:1},
+
+{q:"Perpendicular lines intersect at what angle?", a:["45°","90°","180°","360°"], c:1},
+
+{q:"How many sides does a quadrilateral have?", a:["3","4","5","6"], c:1},
+
+{q:"A square has how many equal sides?", a:["2","3","4","5"], c:2},
+
+{q:"A rhombus has?", a:["4 equal sides","4 right angles","3 equal sides","2 equal sides"], c:0},
+
+{q:"A trapezoid has?", a:["No parallel sides","1 pair of parallel sides","2 pairs of parallel sides","4 equal sides"], c:1},
+
+{q:"A rectangle has?", a:["4 right angles","4 equal sides","No angles","3 angles"], c:0},
+
+{q:"Congruent figures are?", a:["Same shape and size","Same shape only","Same size only","Different"], c:0},
+
+{q:"Similar figures are?", a:["Same shape only","Same shape and proportional size","Exact copies","Different"], c:1},
+
+{q:"A chord is?", a:["Line through center","Line touching circle","Segment connecting 2 points on circle","Radius"], c:2},
+
+{q:"A tangent touches a circle at?", a:["1 point","2 points","Center","No points"], c:0},
+
+{q:"Volume formula of a cube?", a:["s²","s³","6s²","4s"], c:1},
+
+{q:"Surface area of a cube?", a:["s³","6s²","4s²","2s²"], c:1},
+
+{q:"Volume of a rectangular prism?", a:["lw","lwh","2l+2w+2h","wh"], c:1},];
+
+let i=0, score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+ if(i>=questions.length){
+
+ let review = `
+ <h2>Score: ${score}/${questions.length}</h2>
+ <h3>Review</h3>
+ `;
+
+ questions.forEach((q, index) => {
+
+   const userChoice = userAnswers[index];
+   const correctChoice = q.c;
+
+   review += `
+   <div style="margin-bottom:20px; text-align:left;">
+     <strong>${index + 1}. ${q.q}</strong><br>
+     Your Answer:
+     <span style="color:${userChoice===correctChoice ? 'lime' : 'red'}">
+       ${q.a[userChoice]}
+     </span><br>
+     Correct Answer:
+     <span style="color:lime">
+       ${q.a[correctChoice]}
+     </span>
+   </div>
+   `;
+ });
+
+ document.getElementById("quiz").innerHTML = review;
+ return;
+}
+
+ let q = questions[i];
+ document.getElementById("quiz").innerHTML =
+ `<h2>${q.q}</h2>` +
+ q.a.map((ans,idx)=>
+ `<button onclick="check(${idx})">${ans}</button>`).join("");
+}
+
+function check(idx){
+
+ userAnswers.push(idx);
+
+ if(idx===questions[i].c) score++;
+
+ i++;
+ load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+    function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Trigonometry Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+<div class="container">
+<h1>Trigonometry Quiz</h1>
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<div id="quiz"></div>
+</div>
+
+<script>
+const questions = [
+  {q:"TOA stands for?", a:["tan=opp/adj","tan=adj/opp","tan=hyp/opp"], c:0},
+  {q:"What is the hypotenuse?", a:["Longest side","Shortest side","Adjacent side"], c:0},
+  {q:"What is opposite side?", a:["Across from angle","Next to angle","Longest side"], c:0},
+
+  {q:"What is adjacent side?", a:["Across from angle","Next to angle","Hypotenuse"], c:1},
+  {q:"What is sin²θ + cos²θ?", a:["0","1","2"], c:1},
+  {q:"Period of sin(x)?", a:["π","2π","4π"], c:1},
+  {q:"Period of tan(x)?", a:["π","2π","4π"], c:0},
+  {q:"Range of sine?", a:["[-1,1]","[0,1]","(-∞,∞)"], c:0},
+
+  {q:"Range of tangent?", a:["[-1,1]","[0,∞)","(-∞,∞)"], c:2},
+  {q:"Domain of tangent excludes?", a:["0°","90°+180°k","180°"], c:1},
+  {q:"What is sec(0°)?", a:["0","1","Undefined"], c:1},
+  {q:"What is csc(90°)?", a:["1","0","Undefined"], c:0},
+  {q:"What is cot(45°)?", a:["0","1","√3"], c:1},
+
+  {q:"Radians in 180°?", a:["π","2π","π/2"], c:0},
+  {q:"Radians in 90°?", a:["π/4","π/2","π"], c:1},
+  {q:"Radians in 360°?", a:["π","2π","4π"], c:1}
+];
+
+let i=0,score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+if(i>=questions.length){
+
+let review = `
+<h2>Score: ${score}/${questions.length}</h2>
+<h3>Question Review</h3>
+`;
+
+questions.forEach((q, index) => {
+
+    const userChoice = userAnswers[index];
+    const correctChoice = q.c;
+
+    review += `
+    <div style="margin-bottom:20px; text-align:left;">
+        <strong>${index + 1}. ${q.q}</strong><br>
+        Your Answer:
+        <span style="color:${userChoice === correctChoice ? 'lime' : 'red'}">
+            ${q.a[userChoice]}
+        </span><br>
+        Correct Answer:
+        <span style="color:lime">
+            ${q.a[correctChoice]}
+        </span>
+    </div>
+    `;
+});
+
+quiz.innerHTML = review;
+return;
+}
+let q=questions[i];
+quiz.innerHTML="<h2>"+q.q+"</h2>"+
+q.a.map((x,j)=>`<button onclick="check(${j})">${x}</button>`).join("");
+}
+
+function check(j){
+
+userAnswers.push(j);
+
+if(j===questions[i].c) score++;
+
+i++;
+load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>

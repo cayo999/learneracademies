@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Geometry Quiz | Learner Academies</title>
+    <link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+
+<div class="container">
+    <h1>Geometry Quiz</h1>
+
+    <div id="progressWrapper">
+        <div id="progressText">0%</div>
+        <div id="progressBar">
+            <div id="progressFill"></div>
+        </div>
+    </div>
+
+    <div id="quiz"></div>
+</div>
+
+<script>
+const questions = [
+  {q:"How many degrees are in a triangle?", a:["90°","180°","360°"], c:1},
+  {q:"How many degrees are in a straight angle?", a:["90°","180°","360°"], c:1},
+  {q:"How many degrees are in a full circle?", a:["180°","270°","360°"], c:2},
+  {q:"What is a right angle?", a:["45°","90°","180°"], c:1},
+  {q:"What is an acute angle?", a:["Less than 90°","Exactly 90°","Greater than 90°"], c:0},
+
+  {q:"What is an obtuse angle?", a:["Less than 90°","Greater than 90° but less than 180°","Exactly 180°"], c:1},
+  {q:"What is the sum of supplementary angles?", a:["90°","180°","360°"], c:1},
+  {q:"What is the sum of complementary angles?", a:["45°","90°","180°"], c:1},
+  {q:"How many sides does a pentagon have?", a:["5","6","8"], c:0},
+  {q:"How many sides does a hexagon have?", a:["5","6","7"], c:1},
+
+  {q:"How many sides does an octagon have?", a:["6","8","10"], c:1},
+  {q:"A triangle with all equal sides is?", a:["Scalene","Equilateral","Isosceles"], c:1},
+  {q:"A triangle with two equal sides is?", a:["Scalene","Equilateral","Isosceles"], c:2},
+  {q:"A triangle with no equal sides is?", a:["Scalene","Equilateral","Isosceles"], c:0},
+  {q:"What is the Pythagorean theorem?", a:["a²+b²=c²","a+b=c²","a²-b²=c²"], c:0},
+
+  {q:"Which side is opposite the right angle?", a:["Leg","Hypotenuse","Base"], c:1},
+  {q:"What is the area of a rectangle?", a:["l×w","2l+2w","b×h÷2"], c:0},
+  {q:"What is the perimeter of a rectangle?", a:["l×w","2l+2w","4l"], c:1},
+  {q:"What is the area of a triangle?", a:["b×h","b×h÷2","2b+h"], c:1},
+  {q:"What is the area of a circle?", a:["πr²","2πr","πd"], c:0},
+
+  {q:"What is the circumference of a circle?", a:["πr²","2πr","πd²"], c:1},
+  {q:"What is the diameter if radius is 5?", a:["5","10","25"], c:1},
+  {q:"Parallel lines?", a:["Intersect once","Never intersect","Always perpendicular"], c:1},
+  {q:"Perpendicular lines intersect at?", a:["45°","90°","180°"], c:1},
+  {q:"A quadrilateral has how many sides?", a:["3","4","5"], c:1},
+
+  {q:"Opposite sides parallel in a parallelogram?", a:["Yes","No","Sometimes"], c:0},
+  {q:"A square has how many equal sides?", a:["2","4","0"], c:1},
+  {q:"A rhombus has?", a:["4 equal sides","4 right angles only","2 equal sides"], c:0},
+  {q:"A trapezoid has?", a:["1 pair parallel sides","2 pairs parallel sides","No parallel sides"], c:0},
+  {q:"A rectangle has?", a:["4 right angles","4 equal sides only","3 angles"], c:0},
+
+  {q:"What is congruent?", a:["Same shape and size","Same shape only","Same area only"], c:0},
+  {q:"What is similar?", a:["Same shape, different size possible","Exact same size","Parallel"], c:0},
+  {q:"A chord is?", a:["Line through center","Line touching circle","Segment connecting 2 points on circle"], c:2},
+  {q:"A tangent touches circle at?", a:["2 points","1 point","Center"], c:1},
+  {q:"A secant intersects circle at?", a:["1 point","2 points","No points"], c:1},
+
+  {q:"Volume of a cube?", a:["s³","6s²","4s"], c:0},
+  {q:"Surface area of cube?", a:["s³","6s²","4s²"], c:1},
+  {q:"Volume of rectangular prism?", a:["lwh","lw","2l+2w+2h"], c:0},
+  {q:"Volume of cylinder?", a:["πr²h","2πrh","πrh"], c:0},
+  {q:"Surface area of cylinder includes?", a:["2πr²+2πrh","πr²h","2πrh"], c:0},
+
+  {q:"A line segment has?", a:["One endpoint","Two endpoints","No endpoints"], c:1},
+  {q:"A ray has?", a:["Two endpoints","One endpoint","No endpoints"], c:1},
+  {q:"A line has?", a:["No endpoints","One endpoint","Two endpoints"], c:0},
+  {q:"Midpoint divides segment into?", a:["3 equal parts","2 equal parts","4 equal parts"], c:1},
+  {q:"What is a bisector?", a:["Divides into equal parts","Adds lengths","Measures angle"], c:0},
+
+  {q:"Interior angles of quadrilateral sum to?", a:["180°","360°","540°"], c:1},
+  {q:"Interior angles of pentagon sum to?", a:["540°","360°","720°"], c:0},
+  {q:"Distance formula uses?", a:["Pythagorean theorem","Area formula","Slope formula"], c:0},
+  {q:"Slope of horizontal line?", a:["0","Undefined","1"], c:0},
+  {q:"Slope of vertical line?", a:["0","Undefined","-1"], c:1}
+];
+
+let i = 0;
+let score = 0;
+
+function load() {
+    updateProgress();
+
+    if (i >= questions.length) {
+        quiz.innerHTML = `<h2>Score: ${score}/${questions.length}</h2>`;
+        return;
+    }
+
+    let q = questions[i];
+
+    quiz.innerHTML =
+        `<h2>${q.q}</h2>` +
+        q.a.map((x, j) =>
+            `<button onclick="check(${j})">${x}</button>`
+        ).join("");
+}
+
+function check(j) {
+    if (j === questions[i].c) score++;
+
+    i++;
+    load();
+}
+
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+
+load();
+</script>
+
+</body>
+</html>

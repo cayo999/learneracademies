@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Geometry Quiz | Learner Academies</title>
+<link rel="stylesheet" href="QuizStyles.css">
+    <link rel="shortcut icon" href="favicon.png">
+</head>
+<body>
+    <a href="index.html" class="favicon-link">
+    <img src="favicon.png" alt="Launcher" />
+</a>
+<div class="container">
+    <div id="progressWrapper">
+    <div id="progressText">0%</div>
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+</div>
+<h1>Geometry Quiz</h1>
+<div id="quiz"></div>
+</div>
+
+<script>
+    let streak = 0;
+const questions = [
+{q:"What is the sum of the interior angles of a triangle?", a:["90°","180°","270°","360°"], c:1},
+
+{q:"How many degrees are in a right angle?", a:["45°","90°","180°","360°"], c:1},
+
+{q:"What is the sum of supplementary angles?", a:["90°","180°","270°","360°"], c:1},
+
+{q:"What is the sum of complementary angles?", a:["45°","90°","180°","360°"], c:1},
+
+{q:"How many sides does a pentagon have?", a:["4","5","6","8"], c:1},
+
+{q:"How many sides does a hexagon have?", a:["5","6","7","8"], c:1},
+
+{q:"How many sides does an octagon have?", a:["6","7","8","10"], c:2},
+
+{q:"A triangle with all equal sides is called?", a:["Scalene","Isosceles","Equilateral","Right"], c:2},
+
+{q:"A triangle with two equal sides is called?", a:["Scalene","Isosceles","Equilateral","Obtuse"], c:1},
+
+{q:"A triangle with no equal sides is called?", a:["Scalene","Equilateral","Right","Acute"], c:0},
+
+{q:"What is the Pythagorean theorem?", a:["a²+b²=c²","a+b=c²","a²-b²=c²","ab=c²"], c:0},
+
+{q:"What is the longest side of a right triangle called?", a:["Base","Leg","Hypotenuse","Radius"], c:2},
+
+{q:"What is the area formula for a rectangle?", a:["l+w","l×w","2l+2w","b×h÷2"], c:1},
+
+{q:"What is the perimeter formula for a rectangle?", a:["l×w","2l+2w","4l","2w"], c:1},
+
+{q:"What is the area formula for a triangle?", a:["b×h","b+h","b×h÷2","2b+h"], c:2},
+
+{q:"What is the area formula for a circle?", a:["πr²","2πr","πd","πr"], c:0},];
+
+let i=0, score=0;
+let userAnswers = [];
+function load(){
+    updateProgress();
+ if(i>=questions.length){
+
+ let review = `
+ <h2>Score: ${score}/${questions.length}</h2>
+ <h3>Review</h3>
+ `;
+
+ questions.forEach((q, index) => {
+
+   const userChoice = userAnswers[index];
+   const correctChoice = q.c;
+
+   review += `
+   <div style="margin-bottom:20px; text-align:left;">
+     <strong>${index + 1}. ${q.q}</strong><br>
+     Your Answer:
+     <span style="color:${userChoice===correctChoice ? 'lime' : 'red'}">
+       ${q.a[userChoice]}
+     </span><br>
+     Correct Answer:
+     <span style="color:lime">
+       ${q.a[correctChoice]}
+     </span>
+   </div>
+   `;
+ });
+
+ document.getElementById("quiz").innerHTML = review;
+ return;
+}
+
+ let q = questions[i];
+ document.getElementById("quiz").innerHTML =
+ `<h2>${q.q}</h2>` +
+ q.a.map((ans,idx)=>
+ `<button onclick="check(${idx})">${ans}</button>`).join("");
+}
+
+function check(idx){
+
+ userAnswers.push(idx);
+
+ if(idx===questions[i].c) score++;
+
+ i++;
+ load();
+}
+function updateProgress() {
+    let percent = Math.round((i / questions.length) * 100);
+
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("progressText").innerText = percent + "%";
+}
+    function playSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "correct") {
+        osc.frequency.value = 750;
+        gain.gain.value = 0.1;
+    } else {
+        osc.frequency.value = 180;
+        gain.gain.value = 0.1;
+    }
+
+    osc.type = "sine";
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+}
+load();
+</script>
+</body>
+</html>
