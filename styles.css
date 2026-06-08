@@ -17,10 +17,10 @@ body {
 .container {
     width: 100%;
     max-width: 42rem;
-    background: #1f2937;
+    background: #910;
     border-radius: 1rem;
     padding: 2rem;
-    border: 1px solid #374151;
+    border: 1px solid #910;
 }
 
 .progress-section {
