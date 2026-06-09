@@ -2,8 +2,8 @@
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(to bottom right, #111827, #0f172a, #111827);
-    color: white;
+    background: linear-gradient(to bottom right, #ffffff, #e1e1e1);
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,8 +14,8 @@ body {
 .container {
     width: 100%;
     max-width: 700px;
-    background: #1f2937;
-    border: 1px solid #374151;
+    background: #910;
+    border: 1px solid #910;
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 25px 50px rgba(0,0,0,0.4);
