@@ -39,6 +39,8 @@
         display:inline-block;
         padding-top: 0px;
         padding-bottom: 0px
+        text-decoration: none;
+        color: black;
       }
       ul {
         display: inline;
@@ -49,8 +51,12 @@
         margin: 0px;
         padding: 0px;
       }
-      ul li {display: inline-block;}
-      ul li:hover ul {display: block;}
+      ul li {
+        display: inline-block;
+      }
+      ul li:hover ul {
+        display: block;
+      }
       ul li ul {
         position: absolute;
         display: none;
@@ -59,6 +65,22 @@
         display: block; 
       }
       ul li ul li a {display:block !important;}
+      #hidden-content {
+        background-color: #910;
+      }
+      .hidden-link {
+        text-decoration: none;
+        color: black;
+        padding: 20px;
+        margin: 0px;
+      }
+      .hidden-link:hover {
+        background-color: #810;
+      }
+      .hidden-link h3{
+        margin: 0px;
+        padding: 0px;
+      }
     </style>
   </head>
   <body>
@@ -71,7 +93,7 @@
           Home
         </h3>
       </a>
-      <div class="hidden-content">
+      <div>
         <ul>
           <li>
             <a href="launch quiz.html" class="menu-link" id="quiz-link">
@@ -79,30 +101,30 @@
                 Quiz Luancher
               </h3>
             </a>
-            <ul>
+            <ul id="hidden-content">
               <li>
-                <a href="math online.html">
+                <a href="math online.html" class="hidden-link">
                   <h3>
                     Math Quizzes Online
                   </h3>
                 </a>
               </li>
               <li>
-                <a href="math paper.html">
+                <a href="math paper.html" class="hidden-link">
                   <h3>
                     Math Quizzes on Paper
                   </h3>
                 </a>
               </li>
               <li>
-                <a href="science online.html">
+                <a href="science online.html" class="hidden-link">
                   <h3>
                     Science Quizzes Online
                   </h3>
                 </a>
               </li>
               <li>
-                <a href="science paper.html">
+                <a href="science paper.html" class="hidden-link">
                   <h3>
                     Science Quizzes on Paper
                   </h3>
