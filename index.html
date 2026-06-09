@@ -13,12 +13,6 @@
       img {
         height: 60px;
       }
-      .hidden-content {
-        display: none;
-      }
-      #quiz-link:hover .hidden-content {
-        display: block;
-      }  
       .menu {  
         background-color: #910;
         width: 100%;
@@ -36,6 +30,22 @@
       .menu-link:hover {
         background-color: #810;
       }
+      a {
+        display:inline-block;
+      }
+      ul {
+        display: inline;
+      }
+      ul li {display: inline-block;}
+      ul li:hover ul {display: block;}
+      ul li ul {
+        position: absolute;
+        display: none;
+      }
+      ul li ul li {  
+        display: block; 
+      }
+      ul li ul li a {display:block !important;}
     </style>
   </head>
   <body>
@@ -48,38 +58,53 @@
           Home
         </h3>
       </a>
-      <a href="launch quiz.html" class="menu-link" id="quiz-link">
-        <h3>
-          Quiz Luancher
-        </h3>
-      </a>
+      <div class="hidden-content">
+        <ul>
+          <li>
+            <a href="launch quiz.html" class="menu-link" id="quiz-link">
+              <h3>
+                Quiz Luancher
+              </h3>
+            </a>
+            <ul>
+              <li>
+                <a href="math online.html">
+                  <h3>
+                    Math Quizzes Online
+                  </h3>
+                </a>
+              </li>
+              <li>
+                <a href="math paper.html">
+                  <h3>
+                    Math Quizzes on Paper
+                  </h3>
+                </a>
+              </li>
+              <li>
+                <a href="science online.html">
+                  <h3>
+                    Science Quizzes Online
+                  </h3>
+                </a>
+              </li>
+              <li>
+                <a href="science paper.html">
+                  <h3>
+                    Science Quizzes on Paper
+                  </h3>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <a href="about.html" class="menu-link" id="about-link">
         <h3>
           About
         </h3>
       </a>
-      <div class="hidden-content">
-        <a href="math online.html">
-          <h3>
-            Math Quizzes Online
-          </h3>
-        </a>
-        <a href="math paper.html">
-          <h3>
-            Math Quizzes on Paper
-          </h3>
-        </a>
-        <a href="science online.html">
-          <h3>
-            Science Quizzes Online
-          </h3>
-        </a>
-        <a href="science paper.html">
-          <h3>
-            Science Quizzes on Paper
-          </h3>
-        </a>
-      </div>
+      
     </header>
     <div class="main-content">
       
