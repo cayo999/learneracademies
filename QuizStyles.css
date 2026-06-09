@@ -45,61 +45,6 @@ button:hover {
     transform: translateY(-2px);
     background: linear-gradient(to right, #3b82f6, #4ade80);
 }
-
-/* === ANSWER ANIMATIONS === */
-.correct {
-    animation: correctFlash 0.4s ease;
-    background: linear-gradient(to right, #22c55e, #16a34a) !important;
-}
-
-.wrong {
-    animation: wrongShake 0.4s ease;
-    background: linear-gradient(to right, #ef4444, #b91c1c) !important;
-}
-
-@keyframes correctFlash {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-@keyframes wrongShake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-
-/* === FADE ANIMATION === */
-.fade {
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* === RESULTS SCREEN === */
-#resultScreen {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.resultBox {
-    background: #1f2937;
-    padding: 2rem;
-    border-radius: 1rem;
-    text-align: center;
-    border: 1px solid #374151;
-    width: 90%;
-    max-width: 400px;
-}
 /* === ANSWER ANIMATIONS === */
 .correct {
     animation: correctFlash 0.4s ease;
