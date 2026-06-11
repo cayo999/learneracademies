@@ -153,9 +153,11 @@ button:hover {
 .favicon-link img:hover {
     transform: scale(1.15);
 }
-body, html{
+body, html {
     margin: 0px;
     padding: 0px;
+    height: 100%;
+    width: 100%;
 }
 img {
     height: 60px;
